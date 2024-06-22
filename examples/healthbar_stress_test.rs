@@ -1,12 +1,9 @@
 // A stress test drawing a large number of shapes
 
-use bevy::{
-    diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
-    prelude::*,
-};
+use bevy::{ diagnostic::{ FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin }, prelude::* };
 use bevy_vector_shapes::prelude::*;
 
-const SHAPES_PER_AXIS: u32 = 200;
+const SHAPES_PER_AXIS: u32 = 10;
 
 fn main() {
     App::new()
@@ -33,7 +30,7 @@ fn draw_health_bar(painter: &mut ShapePainter, hp: f32) {
     painter.translate(Vec3::Y * 0.7);
     painter.corner_radii = Vec4::splat(0.3);
 
-    painter.color = Color::GREEN * hp + Color::RED * (1. - hp);
+    painter.color = Color::GREEN * hp + Color::RED * (1.0 - hp);
     painter.rect(Vec2::new(0.2 + 0.8 * hp, 0.2));
 
     painter.thickness = 0.02;
@@ -46,7 +43,7 @@ fn draw_spheres(time: Res<Time>, mut painter: ShapePainter) {
     for x in 0..SHAPES_PER_AXIS {
         for y in 0..SHAPES_PER_AXIS {
             let (x, y) = (x as f32, y as f32);
-            let offset = time.elapsed_seconds() + x + 100. * y;
+            let offset = time.elapsed_seconds() + x + 100.0 * y;
             let position = Vec3::new(x * 2.0, offset.sin(), y * 2.0);
 
             painter.hollow = false;
@@ -56,7 +53,7 @@ fn draw_spheres(time: Res<Time>, mut painter: ShapePainter) {
             painter.corner_radii = Vec4::splat(1.0);
             painter.rect(Vec2::splat(1.0));
 
-            let hp = (offset.sin() + 1.) / 2.0;
+            let hp = (offset.sin() + 1.0) / 2.0;
             draw_health_bar(&mut painter, hp);
         }
     }
